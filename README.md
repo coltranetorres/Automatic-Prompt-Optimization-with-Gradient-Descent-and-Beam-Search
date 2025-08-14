@@ -37,3 +37,53 @@ It’s fully automatic out of the box, with an optional human-in-the-loop mode f
 - Beam search: expand each prompt to many candidates, then select only from children for the next beam.
 
 - Bandit selection: UCB using empirical mean reward over multiple pulls (not just the last score).
+
+🧩 Key Components (code map)
+
+evaluate_on_minibatch
+Minibatch evaluation with concrete error detection. Produces numeric overall_score and an error list. Caches LLM text only (criticism/suggestions), not numeric scores (so bandit pulls remain meaningful).
+
+_generate_criticism_from_errors (∇)
+Turns the error list into targeted criticism via the LLM.
+
+_apply_gradient (δ)
+Uses criticism/suggestions to create multiple edited prompts.
+
+_paraphrase_prompts (LLM_mc)
+Creates k paraphrases per edited prompt with robust parsing for 1., 1), 1 -, etc.
+
+_update_candidate_stats
+Tracks generation_count, all_scores, and updates mean_score (empirical mean).
+
+_select_candidates_bandit
+UCB over empirical means with a finite prior for unseen children to avoid crowding.
+
+optimize_prompt
+The outer loop (Algorithm 1): expand → pre-eval children (fast) → select only from expansions → repeat.
+
+🧪 Evaluation (current vs. production)
+
+Current repo uses a simulated evaluator built from simple checks (presence/absence of elements, random draws for quality criteria). It’s fast and shows the optimization mechanics.
+
+To go production:
+
+Swap evaluate_on_minibatch with your real video generation + scoring (e.g., CLIP similarity, VQA, shot quality metrics, or human ratings).
+
+Keep the same interfaces (return a VideoFeedback) and you’ll get ProTeGi’s full loop with real data.
+
+🗂 Output
+
+Console logs for each iteration (scores, errors found, selections).
+
+prompt_optimization_results.json with:
+
+best_prompt, best_score, initial_prompt, improvement
+
+iterations_completed
+
+optimization_history (per-iteration results)
+
+final_beam
+
+⚠️ Notes
+- The current evaluator is simulated. Replace it with your real video pipeline for meaningful scores.
