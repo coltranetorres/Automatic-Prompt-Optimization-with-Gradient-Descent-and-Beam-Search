@@ -58,4 +58,6 @@ To go production:
 
 ## ⚠️ Notes
 
-- The current evaluator is simulated. Replace it with your real video pipeline for meaningful scores.
+- This repo uses a simulated evaluator as a proxy. For meaningful results, plug in your real video generation + scoring pipeline in evaluate_on_minibatch() and use real training/evaluation data. Keep the VideoFeedback return shape unchanged.
+- Set llm_feedback=False during child pre-eval to cut costs; enable it when you need targeted criticism.
+- Example metrics: CLIP similarity to targets, aesthetic/motion quality, VMAF, or human/KPI-based scores (watch time, CTR).
