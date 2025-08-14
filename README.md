@@ -1,6 +1,6 @@
 # Automatic-Prompt-Optimization-with-Gradient-Descent-and-Beam-Search
 
-ProTeGi-Style Automatic Prompt Optimization (APO) for Text-to-Video
+### ProTeGi-Style Automatic Prompt Optimization (APO) for Text-to-Video
 
 This repo implements Automatic Prompt Optimization for text-to-video generation inspired by:
 
