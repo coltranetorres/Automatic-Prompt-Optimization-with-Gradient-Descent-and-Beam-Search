@@ -32,9 +32,9 @@ It is fully automatic out of the box, with an optional human-in-the-loop mode fo
 ## 🧩 Key Components (code map)
 
 - `evaluate_on_minibatch`: Minibatch evaluation with concrete error detection. Produces numeric `overall_score` and an error list. Caches LLM text only (criticism/suggestions), not numeric scores (so bandit pulls remain meaningful).
-- `_generate_criticism_from_errors` (nabla): Turns the error list into targeted criticism via the LLM.
-- `_apply_gradient` (delta): Uses criticism/suggestions to create multiple edited prompts.
-- `_paraphrase_prompts` (`LLM_mc`): Creates k paraphrases per edited prompt with robust parsing for "1.", "1)", "1 -", etc.
+- `_generate_criticism_from_errors`: Turns the error list into targeted criticism via the LLM.
+- `_apply_gradient`: Uses criticism/suggestions to create multiple edited prompts.
+- `_paraphrase_prompts`: Creates k paraphrases per edited prompt with robust parsing for "1.", "1)", "1 -", etc.
 - `_update_candidate_stats`: Tracks `generation_count`, `all_scores`, and updates `mean_score` (empirical mean).
 - `_select_candidates_bandit`: UCB over empirical means with a finite prior for unseen children to avoid crowding.
 - `optimize_prompt`: The outer loop (Algorithm 1): expand -> pre-eval children (fast) -> select only from expansions -> repeat.
